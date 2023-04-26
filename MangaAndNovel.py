@@ -39,7 +39,7 @@ def novel(*args):
         url = f"https://tw.linovelib.com/novel/{arg}.html"
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text,"html.parser")
-        x = soup.select("p.gray")[0].text
+        x = soup.select(".gray")[2].text
         title = soup.select("h2.book-title")[0].text
         a = x[:10]
         b = x[11:]
