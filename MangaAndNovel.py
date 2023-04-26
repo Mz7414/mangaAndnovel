@@ -30,7 +30,7 @@ def mange(*args):
             data = {
                 'message': 
                 "\n"+
-                f"漫畫: 《{title}》 已更新至{x}"
+                f"漫畫:《{title}》已更新至{x}"
             }
             line(data)
             
@@ -47,7 +47,7 @@ def novel(*args):
             data = {
                 'message': 
                 "\n"+
-                f"小說: 《{title}》 已更新"
+                f"小說:《{title}》已更新"
             }
             line(data)
          
