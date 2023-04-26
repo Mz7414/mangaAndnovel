@@ -47,7 +47,9 @@ def novel(*args):
             data = {
                 'message': 
                 "\n"+
-                f"小說:《{title}》已更新"
+                f"小說:《{title}》已更新"+
+                "\n"+
+                f"{b}"
             }
             line(data)
          
