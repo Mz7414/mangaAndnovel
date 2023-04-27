@@ -7,6 +7,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import certifi 
 
 y = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -37,7 +38,7 @@ def mange(*args):
 def novel(*args):
     for arg in args : 
         url = f"https://tw.linovelib.com/novel/{arg}.html?&language=zh"
-        resp = requests.post(url)
+        resp = requests.get(url,verify=certifi.where())
         data = {
             'message':
             resp.text
