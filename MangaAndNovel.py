@@ -7,7 +7,6 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-import certifi 
 
 y = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -37,29 +36,33 @@ def mange(*args):
             
 def novel(*args):
     for arg in args : 
-        url = f"https://tw.linovelib.com/novel/{arg}.html?&language=zh"
-        resp = requests.get(url,verify=certifi.where())
+        orurl = "https://www.view-page-source.com/"
+        url = f"https://tw.linovelib.com/novel/{arg}.html"
+        payload = {
+             "reference_id": "1",
+             "vps_token": "SeklugwIkuKucy.dryKY",
+             "uri": f"{url}"
+        }
+        resp = requests.post(orurl, data=payload)
+        soup = BeautifulSoup(resp.text,"html.parser")
+        x = soup.select("p.gray")[0].text
+        title = soup.select("h2.book-title")[0].text
+        a = x[:10]
+        b = x[11:]
         data = {
             'message':
-            f"{resp.text}" +
-            "\n"+
-            resp.status_code
+            title
         }
         line(data)
-#         soup = BeautifulSoup(resp.text,"html.parser")
-#         x = soup.select("a > div.book-meta-r > p")[0].text
-#         title = soup.select("h2.book-title")[0].text
-#         a = x[:10]
-#         b = x[11:]
-#         if a == y :
-#             data = {
-#                 'message': 
-#                 "\n"+
-#                 f"小說:《{title}》已更新"+
-#                 "\n"+
-#                 f"{b}"
-#             }
-#             line(data)
+        if a == y :
+            data = {
+                'message': 
+                "\n"+
+                f"小說:《{title}》已更新"+
+                "\n"+
+                f"{b}"
+            }
+            line(data)
          
 
 mange(34439,7580,6414,5173,36152,1676,28356,17473)        #看漫畫
