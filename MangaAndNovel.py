@@ -49,15 +49,7 @@ def novel(*args):
         title = soup.select("h2.book-title")[0].text
         a = x[:10]
         b = x[11:]
-        data = {
-           'message': 
-                "\n"+
-                f"小說:《{title}》已更新"+
-                "\n"+
-                f"{b}"+
-                f"{a}"
-        }
-        line(data)
+       
         if a == y :
             data = {
                 'message': 
