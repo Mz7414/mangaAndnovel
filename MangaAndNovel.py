@@ -41,7 +41,7 @@ def novel(*args):
         resp = requests.get(url,verify=certifi.where())
         data = {
             'message':
-            resp.text +
+            f"{resp.text}" +
             "\n"+
             resp.status_code
         }
