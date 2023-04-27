@@ -41,7 +41,9 @@ def novel(*args):
         resp = requests.get(url,verify=certifi.where())
         data = {
             'message':
-            resp.text
+            resp.text +
+            "\n"+
+            resp.status_code
         }
         line(data)
 #         soup = BeautifulSoup(resp.text,"html.parser")
