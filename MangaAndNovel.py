@@ -41,7 +41,7 @@ def mange(*args):
             
 def novel(*args):
     for arg in args : 
-        url = f"https://tw.linovelib.com/novel/{arg}.html"
+        url = f"https://tw.linovelib.com/novel/{arg}.html?language=zh-Hant"
         resp = requests.get(url,headers=header)
         data = {
             'message':
