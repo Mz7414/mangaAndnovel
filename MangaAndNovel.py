@@ -61,6 +61,28 @@ def novel(*args):
             line(data)
          
 
+def mangaren(*args):
+    for arg in args:
+        if arg.isdigit():
+            url = f"https://www.manhuaren.com/chapterlist{arg}/"
+        else:
+            url = f"https://www.manhuaren.com/manhua-{arg}"
+        resp = requests.get(url)
+        soup = BeautifulSoup(resp.text,"html.parser")
+        title = soup.select(".normal-top-title")[0].text.strip()
+        new = soup.select(".detail-list-title-2")[0].text.strip()
+        date = soup.select(".detail-list-title-3")[0].text.strip()
+        print(title,new,date)
+        if date == y :
+            data = {
+                'message': 
+                "\n"+
+                f"漫畫:《{title}》已更新至{new}"
+            }
+            line(data)
+
+mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
+mangaren("yiquanchaoren","54233")                         #漫畫人
 mange(34439,7580,6414,5173,36152,1676,28356,17473)        #看漫畫
 novel(2356,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095) #逼哩輕小說 
 
