@@ -2,7 +2,7 @@ name: manganovel
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "35 15 * * *"
     
 jobs:
   build:
