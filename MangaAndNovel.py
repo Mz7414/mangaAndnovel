@@ -30,7 +30,7 @@ def mange(*args):
             data = {
                 'message': 
                 "\n"+
-                f"漫畫:《{title}》已更新至{x}"
+                f"看漫畫:《{title}》已更新至{x}"
             }
             line(data)
             
@@ -73,11 +73,11 @@ def mangaren(*args):
         new = soup.select(".detail-list-title-2")[0].text.strip()
         date = soup.select(".detail-list-title-3")[0].text.strip()
         print(title,new,date)
-        if date == y :
+        if date[:2] == "今天" :
             data = {
                 'message': 
                 "\n"+
-                f"漫畫:《{title}》已更新至{new}"
+                f"漫畫人:《{title}》已更新至{new}"
             }
             line(data)
 
