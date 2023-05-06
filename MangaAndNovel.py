@@ -9,6 +9,8 @@ from bs4 import BeautifulSoup
 import datetime
 
 y = datetime.datetime.now().strftime("%Y-%m-%d")
+y2 = datetime.date.today() + datetime.timedelta(-1)
+y2 = str(y2)
 
 def line(data):
     url = 'https://notify-api.line.me/api/notify'
@@ -26,7 +28,7 @@ def mange(*args):
         title = soup.select("div.book-title > h1")[0].text
         time = soup.select("span > span:nth-child(3)")[0].text #更新時間
         x = soup.select("li.status > span > a")[0].text  #最新話數
-        if time == y :
+        if time == y or time == y2:
             data = {
                 'message': 
                 "\n"+
@@ -50,7 +52,7 @@ def novel(*args):
         a = x[:10]
         b = x[11:]
        
-        if a == y :
+        if a == y or a == y2:
             data = {
                 'message': 
                 "\n"+
@@ -73,7 +75,7 @@ def mangaren(*args):
         new = soup.select(".detail-list-title-2")[0].text.strip()
         date = soup.select(".detail-list-title-3")[0].text.strip()
         print(title,new,date)
-        if date[:2] == "今天" :
+        if date[:2] == "今天" or date[:2] == "昨天":
             data = {
                 'message': 
                 "\n"+
