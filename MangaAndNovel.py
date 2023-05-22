@@ -45,13 +45,27 @@ def novel(*args):
              "vps_token": "sEJy.bli+ripRaCL0QIB0",
              "uri": f"{url}"
         }
-        resp = requests.post(orurl, data=payload)
+        resp = requests.post(orurl, data=payload)       
         soup = BeautifulSoup(resp.text,"html.parser")
-        x = soup.select("p.gray")[0].text
-        title = soup.select("h2.book-title")[0].text
-        a = x[:10]
-        b = x[11:]
-       
+        try:
+            x = soup.select("p.gray")[0].text
+            title = soup.select("h2.book-title")[0].text
+            a = x[:10]
+            b = x[11:]
+        
+        except:
+            token = soup.select("#vps_token")[0]["value"]
+            payload = {
+             "reference_id": "1",
+             "vps_token": token,
+             "uri": f"{url}"
+            }
+            resp = requests.post(orurl, data=payload)
+            soup = BeautifulSoup(resp.text,"html.parser")
+            title = soup.select("h2.book-title")[0].text
+            x = soup.select("p.gray")[0].text
+            a = x[:10]
+            b = x[11:]
         if a == y or a == y2:
             data = {
                 'message': 
@@ -59,7 +73,7 @@ def novel(*args):
                 f"小說:《{title}》已更新"+
                 "\n"+
                 f"{b}"
-            }
+               }
             line(data)
          
 
