@@ -42,7 +42,7 @@ def novel(*args):
         url = f"https://tw.linovelib.com/novel/{arg}.html"
         payload = {
              "reference_id": "1",
-             "vps_token": "SeklugwIkuKucy.dryKY",
+             "vps_token": "sEJy.bli+ripRaCL0QIB0",
              "uri": f"{url}"
         }
         resp = requests.post(orurl, data=payload)
