@@ -74,7 +74,6 @@ def mangaren(*args):
         title = soup.select(".normal-top-title")[0].text.strip()
         new = soup.select(".detail-list-title-2")[0].text.strip()
         date = soup.select(".detail-list-title-3")[0].text.strip()
-        print(title,new,date)
         if date[:2] == "今天" or date[:2] == "昨天":
             data = {
                 'message': 
