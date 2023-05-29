@@ -98,7 +98,7 @@ def mangaren(*args):
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
     mangaren("yiquanchaoren","54233")                         #漫畫人
-    mange(34439,7580,6414,5173,36152,1676,28356,17473)        #看漫畫
+    mange(34439,7580,6414,5173,36152,1676,28356,17473,42459)        #看漫畫
     novel(1861,2356,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095) #逼哩輕小說 
 except:
     data = {
