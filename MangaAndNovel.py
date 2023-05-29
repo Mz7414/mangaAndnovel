@@ -104,7 +104,7 @@ except:
     data = {
                 'message': 
                 "\n"+
-                "運行出錯"
+                "<MangaAndNovel>運行出錯"
             }
     line(data)
     quit()
