@@ -95,11 +95,45 @@ def mangaren(*args):
                 f"漫畫人:《{title}》已更新至{new}"
             }
             line(data)
+
+#For魔女之旅
+def TravelofWitch():
+    orurl = "https://www.view-page-source.com/"
+    url = f"https://tw.linovelib.com/novel/2356/catalog"
+    payload = {
+         "reference_id": "1",
+         "vps_token": "sEJy.bli+ripRaCL0QIB0",
+         "uri": f"{url}"
+    }
+    resp = requests.post(orurl, data=payload)       
+    soup = BeautifulSoup(resp.text,"html.parser")
+    token = soup.select("#vps_token")[0]["value"]
+    payload = {
+     "reference_id": "1",
+     "vps_token": token,
+     "uri": f"{url}"
+    }
+    resp = requests.post(orurl, data=payload)
+    soup = BeautifulSoup(resp.text,"html.parser")
+    x = soup.find("meta",property='og:novel:update_time')
+    a = x['content'][:10]
+    b = soup.select('.chapter-bar')[-1].text
+    if a == y or a == y2:
+        data = {
+            'message': 
+            "\n"+
+            f"小說:《魔女之旅》已更新"+
+            "\n"+
+            f"{b}"
+           }
+        line(data)
+        
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
     mangaren("yiquanchaoren","54233","wailengneiredeqingmeiduiwodeanlianbaoluwuyi","48094","45283")                         #漫畫人
     mange(34439,7580,6414,5173,36152,1676,28356,17473,42459,42508,31239)        #看漫畫
-    novel(1861,2356,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095) #逼哩輕小說 
+    novel(1861,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095) #逼哩輕小說 
+    TravelofWitch()
 except:
     data = {
                 'message': 
