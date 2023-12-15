@@ -131,7 +131,7 @@ def TravelofWitch():
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
     mangaren("yiquanchaoren","54233","wailengneiredeqingmeiduiwodeanlianbaoluwuyi","48094","45283","59383")                         #漫畫人
-    mange(34439,7580,6414,5173,36152,1676,28356,17473,42459,42508,31239,36998,32503)        #看漫畫
+    mange(34439,7580,6414,5173,36152,1676,28356,17473,42459,42508,31239,36998,32503,31239)        #看漫畫
     novel(1861,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095) #逼哩輕小說 
     TravelofWitch()
 except:
