@@ -1,16 +1,19 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[43]:
-
-
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import re
+
 
 y = datetime.datetime.now().strftime("%Y-%m-%d")
 y2 = datetime.date.today() + datetime.timedelta(-1)
 y2 = str(y2)
+m1 = re.compile(r'[0-9-]{10}$') #正則表達式 10個字元、由數字0-9及dash組成(日期格式)
+Date_error = {
+    'message': 
+    "\n"+
+    '日期格式錯誤'
+}
+
 
 def line(data):
     url = 'https://notify-api.line.me/api/notify'
@@ -20,6 +23,21 @@ def line(data):
     }
     requests.post(url, headers=headers, data=data)
     
+def line_error(name,e):
+    url = 'https://notify-api.line.me/api/notify'
+    token = 'OU2zb6Js8uMFlBleG8MXvQEnph55MvZegpUPbCDri0V'
+    headers = {
+        'Authorization': 'Bearer ' + token   
+    }
+    Excute_error = {
+        'message': 
+        "\n"+
+        "<MangaAndNovel>運行出錯"+
+        "\n"+
+        f"{name}錯誤:{e}"
+    }
+    requests.post(url, headers=headers, data=Excute_error)
+    
 def mange(*args):
     for arg in args :
         url = f"https://www.manhuagui.com/comic/{arg}/"
@@ -28,14 +46,16 @@ def mange(*args):
         title = soup.select("div.book-title > h1")[0].text
         time = soup.select("span > span:nth-child(3)")[0].text #更新時間
         x = soup.select("li.status > span > a")[0].text  #最新話數
-        if time == y or time == y2:
-            data = {
-                'message': 
-                "\n"+
-                f"看漫畫:《{title}》已更新至{x}"
-            }
-            line(data)
-            
+        if re.match(m1,time):
+            if time == y or time == y2:
+                data = {
+                    'message': 
+                    "\n"+
+                    f"看漫畫:《{title}》已更新至{x}"
+                }
+                line(data)
+        else :
+            line(Date_error)
 def novel(*args):
     for arg in args : 
         orurl = "https://www.view-page-source.com/"
@@ -65,16 +85,18 @@ def novel(*args):
             title = soup.select("h2.book-title")[0].text
             update_date = soup.find("meta", property="og:novel:update_time")["content"][:10]
             chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
-        if update_date == y or update_date == y2:
-            data = {
-                'message': 
-                "\n"+
-                f"小說:《{title}》已更新"+
-                "\n"+
-                f"{chapter_name}"
-               }
-            line(data)
-         
+        if re.match(m1,update_date):
+            if update_date == y or update_date == y2:
+                data = {
+                    'message': 
+                    "\n"+
+                    f"小說:《{title}》已更新"+
+                    "\n"+
+                    f"{chapter_name}"
+                   }
+                line(data)
+        else:
+            line(Date_error)    
 
 def mangaren(*args):
     for arg in args:
@@ -117,27 +139,36 @@ def TravelofWitch():
     x = soup.find("meta",property='og:novel:update_time')
     a = x['content'][:10]
     b = soup.select('.chapter-bar')[-1].text
-    if a == y or a == y2:
-        data = {
-            'message': 
-            "\n"+
-            f"小說:《魔女之旅》已更新"+
-            "\n"+
-            f"{b}"
-           }
-        line(data)
+    if re.match(m1,a):
+        if a == y or a == y2:
+            data = {
+                'message': 
+                "\n"+
+                f"小說:《魔女之旅》已更新"+
+                "\n"+
+                f"{b}"
+               }
+            line(data)
+    else :
+        line(Date_error)
         
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
-    mangaren("yiquanchaoren","54233","wailengneiredeqingmeiduiwodeanlianbaoluwuyi","48094","45283","59383")                         #漫畫人
+    mangaren("yiquanchaoren","54233","wailengneiredeqingmeiduiwodeanlianbaoluwuyi","48094","45283","59383")       #漫畫人
+except Exception as e:
+    line_error("漫畫人",e)
+    
+try:
     mange(34439,7580,6414,5173,36152,1676,28356,17473,42459,42508,31239,36998,32503)        #看漫畫
+except Exception as e:
+    line_error("看漫畫",e)
+    
+try:
     novel(1861,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095) #逼哩輕小說 
+except Exception as e:    
+    line_error("逼哩輕小說",e)
+    
+try:
     TravelofWitch()
-except:
-    data = {
-                'message': 
-                "\n"+
-                "<MangaAndNovel>運行出錯"
-            }
-    line(data)
-    quit()
+except Exception as e:
+    line_error("魔女之旅函式",e)
