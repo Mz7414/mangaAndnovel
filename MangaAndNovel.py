@@ -63,16 +63,15 @@ def novel(*args):
             resp = requests.post(orurl, data=payload)
             soup = BeautifulSoup(resp.text,"html.parser")
             title = soup.select("h2.book-title")[0].text
-            x = soup.select("p.gray")[0].text
-            a = x[:10]
-            b = x[11:]
-        if a == y or a == y2:
+            update_date = soup.find("meta", property="og:novel:update_time")["content"][:10]
+            chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
+        if update_date == y or update_date == y2:
             data = {
                 'message': 
                 "\n"+
                 f"小說:《{title}》已更新"+
                 "\n"+
-                f"{b}"
+                f"{chapter_name}"
                }
             line(data)
          
