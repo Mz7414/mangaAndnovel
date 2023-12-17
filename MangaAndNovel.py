@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 import datetime
 import re
 
-
-y = datetime.datetime.now().strftime("%Y-%m-%d")
-y2 = datetime.date.today() + datetime.timedelta(-1)
+#全域變數
+y = datetime.datetime.now().strftime("%Y-%m-%d")    #今天日期
+y2 = datetime.date.today() + datetime.timedelta(-1)  #昨天日期(避免漏偵測)
 y2 = str(y2)
 m1 = re.compile(r'[0-9-]{10}$') #正則表達式 10個字元、由數字0-9及dash組成(日期格式)
 Date_error = {
@@ -14,7 +14,7 @@ Date_error = {
     '日期格式錯誤'
 }
 
-
+#傳送更新通知
 def line(data):
     url = 'https://notify-api.line.me/api/notify'
     token = 'OU2zb6Js8uMFlBleG8MXvQEnph55MvZegpUPbCDri0V'
@@ -22,7 +22,8 @@ def line(data):
         'Authorization': 'Bearer ' + token    # 設定權杖
     }
     requests.post(url, headers=headers, data=data)
-    
+
+#執行錯誤時傳送錯誤通知
 def line_error(name,e):
     url = 'https://notify-api.line.me/api/notify'
     token = 'OU2zb6Js8uMFlBleG8MXvQEnph55MvZegpUPbCDri0V'
@@ -37,7 +38,8 @@ def line_error(name,e):
         f"{name}錯誤:{e}"
     }
     requests.post(url, headers=headers, data=Excute_error)
-    
+
+#以下函式都是爬蟲
 def mange(*args):
     for arg in args :
         url = f"https://www.manhuagui.com/comic/{arg}/"
@@ -117,7 +119,7 @@ def mangaren(*args):
             }
             line(data)
 
-#For魔女之旅
+#For TravelofWitch
 def TravelofWitch():
     orurl = "https://www.view-page-source.com/"
     url = f"https://tw.linovelib.com/novel/2356/catalog"
