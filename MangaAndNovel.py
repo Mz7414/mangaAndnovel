@@ -84,7 +84,7 @@ def novel(*args):
             }
             resp = requests.post(orurl, data=payload)
             soup = BeautifulSoup(resp.text,"html.parser")
-            title = soup.select("h2.book-title")[0].text
+            title = soup.find("meta", property="og:novel:book_name")['content']
             update_date = soup.find("meta", property="og:novel:update_time")["content"][:10]
             chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
         if re.match(m1,update_date):
