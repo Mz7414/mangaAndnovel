@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import re
+import time
 
 #全域變數
 y = datetime.datetime.now().strftime("%Y-%m-%d")    #今天日期
@@ -12,6 +13,10 @@ Date_error = {
     'message': 
     "\n"+
     '日期格式錯誤'
+}
+header = {
+          "Origin":"https://codebeautify.org",
+          "Referer":"https://codebeautify.org/"
 }
 
 #傳送更新通知
@@ -60,33 +65,17 @@ def mange(*args):
             line(Date_error)
 def novel(*args):
     for arg in args : 
-        orurl = "https://www.view-page-source.com/"
+        orurl = "https://www.codebeautify.com/URLService"
         url = f"https://tw.linovelib.com/novel/{arg}.html"
         payload = {
-             "reference_id": "1",
-             "vps_token": "sEJy.bli+ripRaCL0QIB0",
-             "uri": f"{url}"
+             "path": url
         }
-        resp = requests.post(orurl, data=payload)       
-        soup = BeautifulSoup(resp.text,"html.parser")
-        try:
-            x = soup.select("p.gray")[0].text
-            title = soup.select("h2.book-title")[0].text
-            a = x[:10]
-            b = x[11:]
         
-        except:
-            token = soup.select("#vps_token")[0]["value"]
-            payload = {
-             "reference_id": "1",
-             "vps_token": token,
-             "uri": f"{url}"
-            }
-            resp = requests.post(orurl, data=payload)
-            soup = BeautifulSoup(resp.text,"html.parser")
-            title = soup.find("meta", property="og:novel:book_name")['content']
-            update_date = soup.find("meta", property="og:novel:update_time")["content"][:10]
-            chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
+        resp = requests.post(orurl, headers=header, data=payload)               
+        soup = BeautifulSoup(resp.text,"html.parser")
+        title = soup.find("meta", property="og:novel:book_name")['content']
+        update_date = soup.find("meta", property="og:novel:update_time")["content"][:10]
+        chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
         if re.match(m1,update_date):
             if update_date == y or update_date == y2:
                 data = {
@@ -97,6 +86,7 @@ def novel(*args):
                     f"{chapter_name}"
                    }
                 line(data)
+            time.sleep(1)
         else:
             line(Date_error)    
 
@@ -118,41 +108,6 @@ def mangaren(*args):
                 f"漫畫人:《{title}》已更新至{new}"
             }
             line(data)
-
-#For TravelofWitch
-def TravelofWitch():
-    orurl = "https://www.view-page-source.com/"
-    url = f"https://tw.linovelib.com/novel/2356/catalog"
-    payload = {
-         "reference_id": "1",
-         "vps_token": "sEJy.bli+ripRaCL0QIB0",
-         "uri": f"{url}"
-    }
-    resp = requests.post(orurl, data=payload)       
-    soup = BeautifulSoup(resp.text,"html.parser")
-    token = soup.select("#vps_token")[0]["value"]
-    payload = {
-     "reference_id": "1",
-     "vps_token": token,
-     "uri": f"{url}"
-    }
-    resp = requests.post(orurl, data=payload)
-    soup = BeautifulSoup(resp.text,"html.parser")
-    x = soup.find("meta",property='og:novel:update_time')
-    a = x['content'][:10]
-    b = soup.select('.chapter-bar')[-1].text
-    if re.match(m1,a):
-        if a == y or a == y2:
-            data = {
-                'message': 
-                "\n"+
-                f"小說:《魔女之旅》已更新"+
-                "\n"+
-                f"{b}"
-               }
-            line(data)
-    else :
-        line(Date_error)
         
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
@@ -166,11 +121,6 @@ except Exception as e:
     line_error("看漫畫",e)
     
 try:
-    novel(1861,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095) #逼哩輕小說 
+    novel(1861,2059,2139,6,3181,9,2727,3286,8,2513,3161,3095,2356) #逼哩輕小說 
 except Exception as e:    
     line_error("逼哩輕小說",e)
-    
-try:
-    TravelofWitch()
-except Exception as e:
-    line_error("魔女之旅函式",e)
