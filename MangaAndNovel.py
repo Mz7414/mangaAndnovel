@@ -61,6 +61,7 @@ def mange(*args):
                     f"看漫畫:《{title}》已更新至{x}"
                 }
                 line(data)
+            time.sleep(1)
         else :
             line(Date_error)
 def novel(*args):
@@ -108,6 +109,7 @@ def mangaren(*args):
                 f"漫畫人:《{title}》已更新至{new}"
             }
             line(data)
+        time.sleep(1)
         
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
