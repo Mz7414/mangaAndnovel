@@ -51,10 +51,10 @@ def mange(*args):
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text,"html.parser")
         title = soup.select("div.book-title > h1")[0].text
-        time = soup.select("span > span:nth-child(3)")[0].text #更新時間
+        update_time = soup.select("span > span:nth-child(3)")[0].text #更新時間
         x = soup.select("li.status > span > a")[0].text  #最新話數
         if re.match(m1,time):
-            if time == y or time == y2:
+            if update_time == y or update_time == y2:
                 data = {
                     'message': 
                     "\n"+
