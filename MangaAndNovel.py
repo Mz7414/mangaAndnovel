@@ -53,7 +53,7 @@ def mange(*args):
         title = soup.select("div.book-title > h1")[0].text
         update_time = soup.select("span > span:nth-child(3)")[0].text #更新時間
         x = soup.select("li.status > span > a")[0].text  #最新話數
-        if re.match(m1,time):
+        if re.match(m1,update_time):
             if update_time == y or update_time == y2:
                 data = {
                     'message': 
