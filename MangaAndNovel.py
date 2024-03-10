@@ -45,7 +45,7 @@ def line_error(name,e):
     requests.post(url, headers=headers, data=Excute_error)
 
 #以下函式都是爬蟲
-def mange(*args):
+def manga(*args):
     for arg in args :
         url = f"https://www.manhuagui.com/comic/{arg}/"
         resp = requests.get(url)
@@ -114,11 +114,12 @@ def mangaren(*args):
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
     mangaren("yiquanchaoren","54233","wailengneiredeqingmeiduiwodeanlianbaoluwuyi","48094","45283","59383")       #漫畫人
+    mangaren("chongjingchengweimofashaonv")
 except Exception as e:
     line_error("漫畫人",e)
     
 try:
-    mange(34439,7580,6414,5173,36152,1676,28356,17473,42459,42508,31239,31589,36998,32503,30609,35634)        #看漫畫
+    manga(34439,7580,6414,5173,36152,1676,28356,17473,42459,42508,31239,31589,36998,32503,30609,35634)        #看漫畫
 except Exception as e:
     line_error("看漫畫",e)
     
