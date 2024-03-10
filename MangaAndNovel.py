@@ -114,7 +114,7 @@ def mangaren(*args):
 try:
     mangaren("47686","jiabailideduola","wozenmekenengchengweinidelianren-buxingbuxing-bushibukeneng")
     mangaren("yiquanchaoren","54233","wailengneiredeqingmeiduiwodeanlianbaoluwuyi","48094","45283","59383")       #漫畫人
-    mangaren("chongjingchengweimofashaonv")
+    mangaren("chongjingchengweimofashaonv","wodantuidenvhai")
 except Exception as e:
     line_error("漫畫人",e)
     
