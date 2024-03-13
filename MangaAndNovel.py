@@ -48,7 +48,7 @@ def line_error(name,e):
 def manga(*args):
     for arg in args :
         url = f"https://www.manhuagui.com/comic/{arg}/"
-        resp = requests.get(url)
+        resp = requests.get(url,verify=False)
         soup = BeautifulSoup(resp.text,"html.parser")
         title = soup.select("div.book-title > h1")[0].text
         update_time = soup.select("span > span:nth-child(3)")[0].text #更新時間
@@ -61,7 +61,7 @@ def manga(*args):
                     f"看漫畫:《{title}》已更新至{x}"
                 }
                 line(data)
-            time.sleep(1)
+            time.sleep(3)
         else :
             line(Date_error)
 def novel(*args):
