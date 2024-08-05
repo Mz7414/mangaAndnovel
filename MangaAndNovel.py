@@ -87,9 +87,9 @@ def novel(*args):
                     f"{chapter_name}"
                    }
                 line(data)
-        time.sleep(4)
         else:
-            line(Date_error)    
+            line(Date_error) 
+        time.sleep(4)
 
 def mangaren(*args):
     for arg in args:
