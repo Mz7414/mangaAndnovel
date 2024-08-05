@@ -87,7 +87,7 @@ def novel(*args):
                     f"{chapter_name}"
                    }
                 line(data)
-            time.sleep(4)
+        time.sleep(4)
         else:
             line(Date_error)    
 
