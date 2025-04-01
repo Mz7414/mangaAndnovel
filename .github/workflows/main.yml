@@ -19,5 +19,6 @@ jobs:
         pip install datetime
         pip install requests
         pip install BeautifulSoup4
+        pip install line-bot-sdk
     - name: runpython
       run: python MangaAndNovel.py
