@@ -4,45 +4,61 @@ import datetime
 import re
 import time
 
+import requests.packages.urllib3
+requests.packages.urllib3.disable_warnings()
+
 #全域變數
+user = {
+    "Token" : 'MkIbx1P+l3YjJy+mpBWCd/lnzVjA5XB0U2uQqIWcupfwk7kFGglDtC+3nBpiWqq+rcvrhbIU5ejr2kWbQFuMC4j84xE7ixABioc+VfnkKyIdICdlf4gylGGb5tKg8N9fREio5YdrldnhTMFE/6o0OQdB04t89/1O/w1cDnyilFU=',
+    "User_id" : 'U8b173e4c62f8719b3c7a59fabb50f162',
+    "Prefix" : '【作品更新通知】\n'
+}
 y = datetime.datetime.now().strftime("%Y-%m-%d")    #今天日期
 y2 = datetime.date.today() + datetime.timedelta(-1)  #昨天日期(避免漏偵測)
 y2 = str(y2)
 m1 = re.compile(r'[0-9-]{10}$') #正則表達式 10個字元、由數字0-9及dash組成(日期格式)
-Date_error = {
-    'message': 
-    "\n"+
-    '日期格式錯誤'
-}
+
 header = {
-          "Origin":"https://codebeautify.org",
-          "Referer":"https://codebeautify.org/"
+    "Origin":"https://codebeautify.org",
+    "Referer":"https://codebeautify.org/"
 }
 
-#傳送更新通知
-def line(data):
-    url = 'https://notify-api.line.me/api/notify'
-    token = 'OU2zb6Js8uMFlBleG8MXvQEnph55MvZegpUPbCDri0V'
-    headers = {
-        'Authorization': 'Bearer ' + token    # 設定權杖
+def discord(e, msg) :
+    Discord_Webhook_URL = "https://discord.com/api/webhooks/1329365364106203227/zCka4cuIvuHGSBs4JCJiARHsNYPMbOwf6QKixVxDCq8T9lBjNTBaV3aOftUDNtHtChql"
+    data = {
+        "content": e + msg
     }
-    requests.post(url, headers=headers, data=data)
+    response = requests.post(Discord_Webhook_URL, json=data)
+    
+try :
+    from linebot.v3.messaging import MessagingApi, ApiClient, Configuration
+    from linebot.v3.messaging.models import TextMessage, PushMessageRequest
+except ImportError as e :
+    discord(str(e), msg)
+    raise
 
+def line(msg) :
+    config = Configuration(access_token=user['Token'])
+    user_id = user['User_id']      
+    msg = user['Prefix'] + msg    
+    with ApiClient(configuration=config) as api_client :
+        messaging_api = MessagingApi(api_client)    
+        try :
+            message = TextMessage(text=msg)
+            push_request = PushMessageRequest(
+                to=user_id,
+                messages=[message]
+            )    
+            messaging_api.push_message(push_message_request=push_request)           
+        except Exception as e :
+            discord(str(e), msg)
+            return
+            
 #執行錯誤時傳送錯誤通知
 def line_error(name,e):
-    url = 'https://notify-api.line.me/api/notify'
-    token = 'OU2zb6Js8uMFlBleG8MXvQEnph55MvZegpUPbCDri0V'
-    headers = {
-        'Authorization': 'Bearer ' + token   
-    }
-    Excute_error = {
-        'message': 
-        "\n"+
-        "<MangaAndNovel>運行出錯"+
-        "\n"+
-        f"{name}錯誤:{e}"
-    }
-    requests.post(url, headers=headers, data=Excute_error)
+    line("<MangaAndNovel>運行出錯\n"+f"{name}錯誤:{e}")
+
+#------------------------------------------------------
 
 #以下函式都是爬蟲
 def manga(*args):
@@ -55,15 +71,11 @@ def manga(*args):
         x = soup.select("li.status > span > a")[0].text  #最新話數
         if re.match(m1,update_time):
             if update_time == y or update_time == y2:
-                data = {
-                    'message': 
-                    "\n"+
-                    f"看漫畫:《{title}》已更新至{x}"
-                }
-                line(data)
+                line(f"看漫畫:《{title}》已更新至{x}")
             time.sleep(3)
         else :
-            line(Date_error)
+            line(f"{title} 日期格式錯誤")
+            
 def novel(*args):
     for arg in args : 
         orurl = "https://www.codebeautify.com/URLService"
@@ -79,16 +91,9 @@ def novel(*args):
         chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
         if re.match(m1,update_date):
             if update_date == y or update_date == y2:
-                data = {
-                    'message': 
-                    "\n"+
-                    f"小說:《{title}》已更新"+
-                    "\n"+
-                    f"{chapter_name}"
-                   }
-                line(data)
+                line(f"小說:《{title}》已更新"+"\n"+f"{chapter_name}")
         else:
-            line(Date_error) 
+            line(f"{title} 日期格式錯誤") 
         time.sleep(4)
 
 def mangaren(*args):
@@ -103,12 +108,7 @@ def mangaren(*args):
         new = soup.select(".detail-list-title-2")[0].text.strip()
         date = soup.select(".detail-list-title-3")[0].text.strip()
         if date[:2] == "今天" or date[:2] == "昨天":
-            data = {
-                'message': 
-                "\n"+
-                f"漫畫人:《{title}》已更新至{new}"
-            }
-            line(data)
+            line(f"漫畫人:《{title}》已更新至{new}")
         time.sleep(1)
         
 try:
