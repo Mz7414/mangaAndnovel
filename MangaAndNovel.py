@@ -64,7 +64,10 @@ def line_error(name,e):
 def manga(*args):
     for arg in args :
         url = f"https://www.manhuagui.com/comic/{arg}/"
-        resp = requests.get(url,verify=False)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+        }
+        resp = requests.get(url,headers=headers,verify=False)
         soup = BeautifulSoup(resp.text,"html.parser")
         title = soup.select("div.book-title > h1")[0].text
         update_time = soup.select("span > span:nth-child(3)")[0].text #更新時間
