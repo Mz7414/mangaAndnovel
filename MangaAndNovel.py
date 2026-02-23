@@ -81,23 +81,41 @@ def manga(*args):
             
 def novel(*args):
     for arg in args : 
-        orurl = "https://www.codebeautify.com/URLService"
-        url = f"https://tw.linovelib.com/novel/{arg}.html"
-        payload = {
-             "path": url
-        }
+        try:
+            orurl = "https://www.codebeautify.com/URLService"
+            url = f"https://tw.linovelib.com/novel/{arg}.html"
+            payload = {
+                 "path": url
+            }
+            
+            #resp = requests.post(orurl, headers=header, data=payload, timeout=15) 
+            headers = {"User-Agent": (
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"
+            ),
+            "Accept-Language": "zh-TW,zh;q=0.9"
+            }
+    
+            resp = requests.get(
+            url,
+            headers=headers,
+            timeout=15
+            )
+    
+            soup = BeautifulSoup(resp.text,"html.parser")
+            title = soup.find("meta", property="og:novel:book_name")['content']
+            update_date = soup.find("meta", property="og:novel:update_time")["content"][:10]
+            chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
+            if re.match(m1,update_date):
+                if update_date == y or update_date == y2:
+                    line(f"小說:《{title}》已更新"+"\n"+f"{chapter_name}")
+            else:
+                line(f"{title} 日期格式錯誤") 
+        except Exception as e:
+            line_error(f"小說代碼 {arg}", e)
+            continue
+        time.sleep(10)
         
-        resp = requests.post(orurl, headers=header, data=payload)               
-        soup = BeautifulSoup(resp.text,"html.parser")
-        title = soup.find("meta", property="og:novel:book_name")['content']
-        update_date = soup.find("meta", property="og:novel:update_time")["content"][:10]
-        chapter_name = soup.find("meta", property="og:novel:latest_chapter_name")["content"]
-        if re.match(m1,update_date):
-            if update_date == y or update_date == y2:
-                line(f"小說:《{title}》已更新"+"\n"+f"{chapter_name}")
-        else:
-            line(f"{title} 日期格式錯誤") 
-        time.sleep(4)
 
 def mangaren(*args):
     for arg in args:
