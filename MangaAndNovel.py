@@ -88,19 +88,7 @@ def novel(*args):
                  "path": url
             }
             
-            #resp = requests.post(orurl, headers=header, data=payload, timeout=15) 
-            headers = {"User-Agent": (
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) "
-            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"
-            ),
-            "Accept-Language": "zh-TW,zh;q=0.9"
-            }
-    
-            resp = requests.get(
-            url,
-            headers=headers,
-            timeout=15
-            )
+            resp = requests.post(orurl, headers=header, data=payload, timeout=15) 
     
             soup = BeautifulSoup(resp.text,"html.parser")
             title = soup.find("meta", property="og:novel:book_name")['content']
