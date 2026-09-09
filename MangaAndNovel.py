@@ -9,8 +9,8 @@ import requests.packages.urllib3
 requests.packages.urllib3.disable_warnings()
 
 #全域變數
-Token = os.environ.get("Token")
-User_id = os.environ.get("User_id")
+Token = os.environ.get("TOKEN")
+User_id = os.environ.get("USER_ID")
 user = {
     "Token" : Token,
     "User_id" : User_id,
@@ -27,7 +27,7 @@ header = {
 }
 
 def discord(e) :
-    Discord_Webhook_URL = os.environ.get("Discord_Webhook_URL")
+    Discord_Webhook_URL = os.environ.get("DISCORD_WEBHOOK_URL")
     data = {
         "content": e
     }
