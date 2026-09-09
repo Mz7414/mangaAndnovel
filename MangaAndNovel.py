@@ -3,14 +3,17 @@ from bs4 import BeautifulSoup
 import datetime
 import re
 import time
+import os
 
 import requests.packages.urllib3
 requests.packages.urllib3.disable_warnings()
 
 #全域變數
+Token = os.environ.get("Token")
+User_id = os.environ.get("User_id")
 user = {
-    "Token" : 'MkIbx1P+l3YjJy+mpBWCd/lnzVjA5XB0U2uQqIWcupfwk7kFGglDtC+3nBpiWqq+rcvrhbIU5ejr2kWbQFuMC4j84xE7ixABioc+VfnkKyIdICdlf4gylGGb5tKg8N9fREio5YdrldnhTMFE/6o0OQdB04t89/1O/w1cDnyilFU=',
-    "User_id" : 'U8b173e4c62f8719b3c7a59fabb50f162',
+    "Token" : Token,
+    "User_id" : User_id,
     "Prefix" : '【作品更新通知】\n'
 }
 y = datetime.datetime.now().strftime("%Y-%m-%d")    #今天日期
