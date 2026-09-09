@@ -27,7 +27,7 @@ header = {
 }
 
 def discord(e) :
-    Discord_Webhook_URL = "https://discord.com/api/webhooks/1329365364106203227/zCka4cuIvuHGSBs4JCJiARHsNYPMbOwf6QKixVxDCq8T9lBjNTBaV3aOftUDNtHtChql"
+    Discord_Webhook_URL = os.environ.get("Discord_Webhook_URL")
     data = {
         "content": e
     }
