@@ -21,4 +21,8 @@ jobs:
         pip install BeautifulSoup4
         pip install line-bot-sdk
     - name: runpython
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
+        USER_ID: ${{ secrets.USER_ID }}
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       run: python MangaAndNovel.py
